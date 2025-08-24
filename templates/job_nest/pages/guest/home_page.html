@@ -13,14 +13,13 @@
 <style>
     body {
         font-family: 'Inter', sans-serif;
-        /* Set the background image and its properties */
         background-image: url('{% static 'images/bg-1.jpg' %}');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
+        overflow-x: hidden; /* Prevents horizontal scroll caused by animations */
     }
-    /* Style for the main content container to add a beautiful blur effect */
     .glass-container {
         backdrop-filter: blur(10px);
         background-color: rgba(255, 255, 255, 0.2);
@@ -30,18 +29,110 @@
         border-radius: 12px;
         padding: 2rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         border: 1px solid rgba(229, 231, 235, 0.5);
+        animation: fadeIn 1s ease-out forwards;
     }
     .flow-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+    .testimonial-card {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+    .testimonial-card:hover {
         transform: translateY(-5px);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    .animate-pulse-slow {
+        animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Carousel Specific Styles */
+    .carousel-container {
+        position: relative;
+    }
+    .carousel {
+        display: flex;
+        overflow-x: hidden; /* Hide the scrollbar but keep the functionality */
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+    .carousel-item {
+        flex: 0 0 auto;
+        width: 100%;
+        scroll-snap-align: start;
+        padding-right: 2rem;
+    }
+    @media (min-width: 768px) {
+        .carousel-item {
+            width: 50%;
+        }
+    }
+    @media (min-width: 1024px) {
+        .carousel-item {
+            width: 25%;
+        }
+    }
+    .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(67, 56, 202, 1); /* Solid indigo background */
+        color: white; /* White arrow color */
+        border-radius: 50%;
+        width: 3rem; /* Increased size */
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+        z-index: 10;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .carousel-button:hover {
+        background-color: rgba(49, 46, 129, 1); /* Darker on hover */
+        transform: translateY(-50%) scale(1.1);
+    }
+    .carousel-button svg {
+        width: 1.5rem; /* Larger SVG icon */
+        height: 1.5rem;
+    }
+    .prev-button {
+        left: 0.5rem;
+    }
+    .next-button {
+        right: 0.5rem;
+    }
+    /* Hide scrollbar for a cleaner look */
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+    .carousel {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
     }
 </style>
 
 <div class="glass-container flex-grow">
-        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
-            <!-- Hero Section -->
-            <section class="text-center mb-16">
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+        <!-- Hero Section -->
+        <section class="text-center mb-16 relative">
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- New Hero Image -->
+                <img src="{% static 'images/bg-2.jpg' %}" alt="Job search illustration" class="mb-8 w-64 h-64 md:w-80 md:h-80 rounded-full animate-pulse-slow">
                 <h1 class="text-4xl md:text-6xl font-extrabold leading-tight text-white mb-4">
                     Find the right job.
                     <span class="text-indigo-300 block">Create the perfect job application.</span>
@@ -58,80 +149,142 @@
                         Create a Job Application
                     </a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- How It Works Section -->
-            <section class="mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">How It Works</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-                    <!-- Step 1 -->
-                    <div class="flow-card text-center">
-                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl md:text-4xl font-bold">
-                            1
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Find Your Job</h3>
-                        <p class="text-gray-600">Search through our extensive database of job opportunities tailored to your skills and interests.</p>
+        <!-- How It Works Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <!-- Step 1 -->
+                <div class="flow-card text-center">
+                    <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     </div>
-
-                    <!-- Step 2 -->
-                    <div class="flow-card text-center">
-                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl md:text-4xl font-bold">
-                            2
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Build Your Job Application</h3>
-                        <p class="text-gray-600">Use our powerful job application builder to create a professional application that gets noticed by recruiters.</p>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="flow-card text-center">
-                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl md:text-4xl font-bold">
-                            3
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Land the Interview</h3>
-                        <p class="text-gray-600">Apply to jobs with confidence and get ready to impress hiring managers with your polished application.</p>
-                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Find Your Job</h3>
+                    <p class="text-gray-600">Search through our extensive database of job opportunities tailored to your skills and interests.</p>
                 </div>
-            </section>
 
-            <!-- What We Offer Section -->
-            <section>
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">What We Offer</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Feature Card 1 -->
-                    <div class="flow-card text-center">
-                        <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Advanced Job Search</h3>
-                        <p class="text-gray-600">Filter jobs by industry, location, salary, and more to find the perfect match quickly.</p>
+                <!-- Step 2 -->
+                <div class="flow-card text-center">
+                    <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
                     </div>
-                    <!-- Feature Card 2 -->
-                    <div class="flow-card text-center">
-                        <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Professional Job Application Builder</h3>
-                        <p class="text-gray-600">Create a professional job application with our easy-to-use builder. Choose from a variety of templates.</p>
-                    </div>
-                    <!-- Feature Card 3 -->
-                    <div class="flow-card text-center">
-                        <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 3c0 3.5 1.5 5.2 3 7l2 2"/><path d="M20.5 9.5a2.15 2.15 0 0 1 .5 1.62A2.3 2.3 0 0 1 18 14.5a3.6 3.6 0 0 1-5 1.5 7.5 7.5 0 0 0-2 3"/><path d="M8.5 20.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"/></svg>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Career Advice and Resources</h3>
-                        <p class="text-gray-600">Gain a competitive edge with expert tips, articles, and guides on career development and job searching.</p>
-                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Build Your Job Application</h3>
+                    <p class="text-gray-600">Use our powerful job application builder to create a professional application that gets noticed by recruiters.</p>
                 </div>
-            </section>
-        </main>
-    </div>
+
+                <!-- Step 3 -->
+                <div class="flow-card text-center">
+                    <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.896a6 6 0 0 1-5.185 5.562"/><path d="M10.151 17.51a3.5 3.5 0 0 1-5.6-5.833"/><path d="M16.516 11.082A7.8 7.8 0 0 1 12 18a7.8 7.8 0 0 1-4.516-6.918"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Land the Interview</h3>
+                    <p class="text-gray-600">Apply to jobs with confidence and get ready to impress hiring managers with your polished application.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Offer Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">What We Offer</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="flow-card text-center">
+                    <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Advanced Job Search</h3>
+                    <p class="text-gray-600">Filter jobs by industry, location, and salary, and more to find the perfect match quickly.</p>
+                </div>
+                <!-- Feature Card 2 -->
+                <div class="flow-card text-center">
+                    <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Professional Job Application Builder</h3>
+                    <p class="text-gray-600">Create a professional job application with our easy-to-use builder. Choose from a variety of templates.</p>
+                </div>
+                <!-- Feature Card 3 -->
+                <div class="flow-card text-center">
+                    <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 3c0 3.5 1.5 5.2 3 7l2 2"/><path d="M20.5 9.5a2.15 2.15 0 0 1 .5 1.62A2.3 2.3 0 0 1 18 14.5a3.6 3.6 0 0 1-5 1.5 7.5 7.5 0 0 0-2 3"/><path d="M8.5 20.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Career Advice and Resources</h3>
+                    <p class="text-gray-600">Gain a competitive edge with expert tips, articles, and guides on career development and job searching.</p>
+                </div>
+            </div>
+        </section>
+
+        {% include 'components/testimonials.html' %}
+
+    </main>
+</div>
 
 <script>
-    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenu.classList.toggle('hidden');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            hamburgerIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+
+            if (mobileMenu.classList.contains('hidden')) {
+                closeIcon.classList.add('rotate-90');
+                hamburgerIcon.classList.remove('rotate-90');
+            } else {
+                hamburgerIcon.classList.add('rotate-90');
+                closeIcon.classList.remove('rotate-90');
+            }
+        });
+
+        // Testimonial Carousel Script
+        const carousel = document.querySelector('.carousel');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const totalItems = carousel.children.length;
+        let currentIndex = 0;
+        let autoScrollInterval;
+
+        function scrollCarousel(direction) {
+            if (direction === 'next') {
+                currentIndex = (currentIndex + 1) % totalItems;
+            } else if (direction === 'prev') {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            }
+            const cardWidth = carousel.querySelector('.carousel-item').offsetWidth;
+            carousel.scrollLeft = currentIndex * cardWidth;
+        }
+
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                scrollCarousel('next');
+            }, 5000); // Scrolls every 5 seconds
+        }
+
+        function stopAutoScroll() {
+            clearInterval(autoScrollInterval);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            stopAutoScroll();
+            scrollCarousel('next');
+            startAutoScroll(); // Restart after user interaction
+        });
+
+        prevBtn.addEventListener('click', () => {
+            stopAutoScroll();
+            scrollCarousel('prev');
+            startAutoScroll(); // Restart after user interaction
+        });
+
+        // Initial start of auto-scroll
+        startAutoScroll();
     });
 </script>
     
 {% endblock %}
-    

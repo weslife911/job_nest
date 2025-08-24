@@ -1,6 +1,20 @@
+
+
 <header class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
     <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between">
-        <a href="{% url 'home' %}" class="text-3xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors duration-300">JobNest</a>
+        
+        {% if request.user.is_authenticated %}
+            
+            {% if request.user.user_type == "job-seeker" %}
+                <a href="{% url 'job_seeker_dashboard' %}" class="text-3xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors duration-300">JobNest</a>
+            {% else %}
+                <a href="{% url 'employer_dashboard' %}" class="text-3xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors duration-300">JobNest</a>
+            {% endif %}
+                
+        {% else %}
+            <a href="{% url 'home' %}" class="text-3xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors duration-300">JobNest</a>
+        {% endif %}
+            
         
         <!-- Mobile Menu Button -->
         <div class="md:hidden flex items-center mt-4 md:mt-0">

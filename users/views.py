@@ -7,19 +7,28 @@ from .forms import JobSeekerProfileForm, EmployerProfileForm
 # Create your views here.
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("dashboard")
+        if request.user.user_type == "employer":
+            return redirect("employer_dashboard")
+        else:
+            return redirect("job_seeker_dashboard")
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("dashboard")
+            if request.user.user_type == "employer":
+                return redirect("employer_dashboard")
+            else:
+                return redirect("job_seeker_dashboard")
     return render(request, "job_nest/pages/auth/login_page.html")
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect("dashboard")
+        if request.user.user_type == "employer":
+            return redirect("employer_dashboard")
+        else:
+            return redirect("job_seeker_dashboard")
         
     if request.method == "POST":
         job_seeker_form = JobSeekerProfileForm()
@@ -36,19 +45,19 @@ def register_view(request):
             user.save()
             login(request, user)
             if user_type == "job-seeker":
-                job_seeker_form = JobSeekerProfileForm(request.POST)
+                job_seeker_form = JobSeekerProfileForm(request.POST, request.FILES)
                 if job_seeker_form.is_valid():
                     job_seeker_profile = job_seeker_form.save(commit=False)
                     job_seeker_profile.user = user
                     job_seeker_profile.save()
-                    return redirect("dashboard")
+                    return redirect("job_seeker_dashboard")
             else:
-                employer_form = EmployerProfileForm(request.POST)
+                employer_form = EmployerProfileForm(request.POST, request.FILES)
                 if employer_form.is_valid():
                     employer_profile = employer_form.save(commit=False)
                     employer_profile.user = user
                     employer_profile.save()
-                    return redirect("dashboard")
+                    return redirect("employer_dashboard")
     else:
         job_seeker_form = JobSeekerProfileForm()
         employer_form = EmployerProfileForm()

@@ -1,0 +1,113 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Employer Dashboard
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+    }
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .main-content {
+        background-color: #ffffffd0;
+    }
+</style>
+
+<main class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto main-content rounded-xl shadow-lg p-8">
+            <!-- Company Logo and Greeting Section -->
+            <div class="flex items-center gap-6 mb-8">
+                {% if employer.company_logo %}
+                    <img src="{{ employer.company_logo.url }}" alt="{{ employer.company_name }} Logo" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg">
+                {% else %}
+                    <img src="https://placehold.co/100x100/F0F4F8/3B82F6?text={{ employer.company_name|slice:':1' }}" alt="Company Logo" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg">
+                {% endif %}
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-900">Hello, {{ request.user.full_name }}!</h1>
+                    <p class="text-gray-600 text-lg">Manage your job listings and applicants.</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Sections Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Active Job Listings -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Active Job Listings</h2>
+
+                    
+                    {% if jobs %}
+                        <div id="active-jobs-list" class="space-y-4">
+
+                        </div>
+                    {% else %}
+                        <div id="no-jobs-message" class="text-center py-10">
+                            <p class="text-gray-500 italic">You haven't posted any jobs yet.</p>
+                            <a href="{% url 'post_job' %}" class="mt-4 inline-block text-indigo-600 font-medium hover:underline">Post your first job now!</a>
+                        </div>
+                        <a href="all_jobs.html" id="view-all-jobs-link" class="mt-4 inline-block text-indigo-600 hover:underline" style="display: none;">View All Listings &rarr;</a>
+                    {% endif %}
+                    
+                </div>
+
+                <!-- Recent Applications -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Recent Applications</h2>
+
+                    <!-- Application listings will be rendered here by JS -->
+
+                    <!-- <div id="recent-applications-list" class="space-y-4">
+
+                    </div> -->
+                    <div id="no-applications-message" class="text-center py-10">
+                        <p class="text-gray-500 italic">No applications to show right now.</p>
+                        <p class="text-sm text-gray-500 mt-2">Check back soon or post more jobs to get applicants.</p>
+                    </div>
+                    <a href="#" id="manage-all-applications-link" class="mt-4 inline-block text-indigo-600 hover:underline" style="display: none;">Manage All Applications &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="text-center mt-8 space-y-4">
+                <a href="{% url 'post_job' %}" class="inline-block bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-700 transition-colors duration-300">
+                    <span class="mr-2"></span> Post a New Job
+                </a>
+                <a href="profile-employer.html" class="inline-block bg-white text-gray-900 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-100 transition-colors duration-300">
+                    <span class="mr-2"></span> Manage My Profile
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+<script>
+    // Mobile menu toggle logic
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const activeJobsList = document.getElementById('active-jobs-list');
+        const noJobsMessage = document.getElementById('no-jobs-message');
+        const viewAllJobsLink = document.getElementById('view-all-jobs-link');
+        
+        const recentApplicationsList = document.getElementById('recent-applications-list');
+        const noApplicationsMessage = document.getElementById('no-applications-message');
+        const manageApplicationsLink = document.getElementById('manage-all-applications-link');
+
+    });
+</script>
+
+{% endblock %}
