@@ -8,5 +8,6 @@ urlpatterns = [
     path("faq/", views.faq_view, name="faq"),
     path("browse-jobs", views.browse_jobs_view, name="browse_jobs"),
     path("post-job/", views.post_job_view, name="post_job"),
-    path("apply-job/", views.apply_job_view, name="apply_job")
+    path("apply-job/", views.apply_job_view, name="apply_job"),
+    path("dashboard/", views.dashboard_view, name="dashboard")
 ]

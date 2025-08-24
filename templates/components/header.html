@@ -13,45 +13,53 @@
 
         <!-- Navigation Links -->
         <ul id="mobile-menu" class="hidden md:flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 text-gray-800 text-lg font-medium transition-all duration-300 ease-in-out">
-            <li><a href="{% url 'home' %}" class="hover:text-indigo-600 transition-colors duration-300 active:text-indigo-600">Home</a></li>
             
             {% if request.user.is_authenticated %}
-                <li><a href="{% url 'browse_jobs' %}" class="hover:text-indigo-600 transition-colors duration-300">Browse Jobs</a></li>
-                <li><a href="{% url 'post_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Post a Job</a></li>
-                <li><a href="{% url 'apply_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Apply for Job</a></li>
-            {% endif %}
                 
-            <li><a href="{% url 'about' %}" class="hover:text-indigo-600 transition-colors duration-300">About Us</a></li>
-            <li><a href="{% url 'contact' %}" class="hover:text-indigo-600 transition-colors duration-300">Contact</a></li>
-            <li><a href="{% url 'faq' %}" class="hover:text-indigo-600 transition-colors duration-300">FAQ</a></li>
-            <!-- Login/Register Buttons for smaller screens -->
-            
-            {% if request.user.is_authenticated %}
-                <div class="hidden md:flex items-center space-x-4">
-                    <p class="text-white text-lg">Hello, {{ request.user.username }} 👋</p>
-                </div>
+                {% if request.user.user_type == "job-seeker" %}
+                    <li><a href="{% url 'browse_jobs' %}" class="hover:text-indigo-600 transition-colors duration-300">Browse Jobs</a></li>
+                    <li><a href="{% url 'apply_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Apply for Job</a></li>
+                {% else %}
+                    <li><a href="{% url 'post_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Post a Job</a></li>
+                {% endif %}
+                
             {% else %}
-                <li class="md:hidden">
+            <li><a href="{% url 'home' %}" class="hover:text-indigo-600 transition-colors duration-300 active:text-indigo-600">Home</a></li>
+                <li><a href="{% url 'about' %}" class="hover:text-indigo-600 transition-colors duration-300">About Us</a></li>
+                <li><a href="{% url 'contact' %}" class="hover:text-indigo-600 transition-colors duration-300">Contact</a></li>
+                <li><a href="{% url 'faq' %}" class="hover:text-indigo-600 transition-colors duration-300">FAQ</a></li>
+                <li>
                     <a href="{% url 'login' %}" class="block w-full text-center bg-transparent border-2 border-indigo-600 text-indigo-600 font-bold py-2 px-6 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">Log In</a>
                 </li>
-                <li class="md:hidden">
+                <li>
                     <a href="{% url 'register' %}" class="block w-full text-center bg-indigo-600 text-white font-bold py-2 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300">Register</a>
             </li>
             {% endif %}
                 
+            
+            {% if request.user.is_authenticated %}
+                <div class="hidden md:flex items-center space-x-3">
+                    <span class="text-xl">👋</span>
+                    <p class="text-gray-800 text-lg font-medium">
+                        Hello, <span class="text-indigo-600 font-bold">{{ request.user.username }}</span>!
+                    </p>
+                </div>
+                <!-- Logout Button -->
+                <li>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="text-gray-600 hover:text-red-500 transition-colors duration-300 group flex items-center space-x-1">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span class="hidden md:inline-block group-hover:underline">Logout</span>
+                        </button>
+                    </form>
+                </li>
+            {% endif %}
+                
         </ul>
 
-        <!-- Desktop Login/Register Buttons -->
-        
-        {% if request.user.is_authenticated %}
-            <div class="hidden md:flex items-center space-x-4">
-                <p class="text-white text-lg">Hello, {{ request.user.username }} 👋</p>
-            </div>
-        {% else %}
-            <div class="hidden md:flex items-center space-x-4">
-            <a href="{% url 'login' %}" class="bg-transparent border-2 border-indigo-600 text-indigo-600 font-bold py-2 px-6 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">Log In</a>
-            <a href="{% url 'register' %}" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300">Register</a>
-        {% endif %}
             
     </nav>
 </header>
