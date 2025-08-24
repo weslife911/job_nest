@@ -1,0 +1,73 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    About Us
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        /* Added beautiful background image for the About page */
+        background-image: url('{% static 'images/bg-1.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    /* Style for the main content container to add a beautiful blur effect */
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<main class="container mx-auto px-6 py-12">
+        <div class="glass-container rounded-3xl p-8 md:p-16 mb-12 shadow-2xl text-white">
+            <h1 class="text-4xl md:text-5xl font-bold text-center mb-6">About JobNest</h1>
+            <p class="text-center text-lg mb-8 max-w-2xl mx-auto">
+                At JobNest, we believe that everyone deserves to find a job they love. Our mission is to connect talented individuals with great companies, making the job search process simpler, faster, and more effective.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
+                <!-- Added a new image here -->
+                <div class="order-2 md:order-1">
+                    <img src="{% static 'images/bg-2.jpg' %}" alt="Our Mission" class="w-full h-auto object-cover rounded-xl shadow-lg">
+                </div>
+                <div class="order-1 md:order-2">
+                    <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+                    <p class="text-lg text-gray-200">
+                        To build the most intuitive and powerful job platform that empowers job seekers and recruiters alike. We are committed to fostering a community where talent is recognized and opportunities are limitless.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4">Our Vision</h2>
+                    <p class="text-lg text-gray-200">
+                        We envision a world where the perfect job finds you. By leveraging cutting-edge technology and a user-centric design, we aim to eliminate the friction in the hiring process and create a seamless experience for everyone.
+                    </p>
+                </div>
+                <!-- Added a new image here -->
+                <div>
+                    <img src="{% static 'images/bg-3.jpg' %}" alt="Our Vision" class="w-full h-auto object-cover rounded-xl shadow-lg">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle logic
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+{% endblock %}

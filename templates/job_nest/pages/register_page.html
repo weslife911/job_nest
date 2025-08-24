@@ -1,0 +1,408 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-image: url('{% static 'images/bg-3.avif' %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .main-content {
+        background-color: #ffffffd0;
+    }
+    .message-box {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        transform: translateY(20px);
+    }
+    .form-step {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .step-indicator-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    .step-indicator {
+        width: 30px;
+        height: 30px;
+        background-color: #e2e8f0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        position: relative;
+        z-index: 1;
+    }
+    .step-indicator.active {
+        background-color: #4f46e5;
+        color: #ffffff;
+    }
+    .step-indicator.complete {
+        background-color: #10b981;
+        color: #ffffff;
+    }
+    .step-indicator:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        width: 60px; /* Adjust length of the line */
+        height: 2px;
+        background-color: #e2e8f0;
+        left: calc(100% + 5px);
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+    .step-indicator.complete:not(:last-child)::after {
+        background-color: #10b981;
+    }
+</style>
+
+<div class="glass-container flex-grow flex items-center justify-center py-12">
+    <div class="main-content w-full max-w-lg mx-auto p-8 rounded-2xl shadow-xl border border-gray-200">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Create an Account</h1>
+            <p class="text-gray-600 mt-2">Join JobNest and find your next opportunity!</p>
+        </div>
+
+        <div class="step-indicator-container flex justify-center items-center space-x-2">
+            <div id="step-1-indicator" class="step-indicator active">1</div>
+            <div id="step-2-indicator" class="step-indicator">2</div>
+            <div id="step-3-indicator" class="step-indicator">3</div>
+        </div>
+
+        <form id="registerForm" class="space-y-6">
+
+            <div id="step-1" class="form-step">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Account Details</h2>
+                
+                <div class="flex items-center space-x-8 mb-6">
+                    <span class="text-sm font-medium text-gray-700">I am a:</span>
+                    <div class="flex items-center">
+                        <input type="radio" id="job-seeker" name="userType" value="job-seeker" checked class="text-indigo-600 focus:ring-indigo-500">
+                        <label for="job-seeker" class="ml-2 text-sm font-medium text-gray-700">Job Seeker</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="employer" name="userType" value="employer" class="text-indigo-600 focus:ring-indigo-500">
+                        <label for="employer" class="ml-2 text-sm font-medium text-gray-700">Employer</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Jane Doe">
+                </div>
+
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <input type="text" id="username" name="username" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., janedoe_23">
+                </div>
+                
+                <div id="companyNameGroup" class="hidden">
+                    <label for="companyName" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                    <input type="text" id="companyName" name="companyName" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., JobNest Inc.">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="you@example.com">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" name="password" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="••••••••">
+                </div>
+
+                <div class="flex justify-end mt-6">
+                    <button type="button" id="next-1" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-2" class="form-step hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Additional Details</h2>
+                
+                <div id="job-seeker-details" class="space-y-6">
+                    <div>
+                        <label for="skills" class="block text-sm font-medium text-gray-700 mb-1">Skills (comma separated)</label>
+                        <input type="text" id="skills" name="skills" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Python, Django, HTML, CSS">
+                    </div>
+                    <div>
+                        <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" min="0" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., 5">
+                    </div>
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                        <input type="text" id="location" name="location" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., New York, NY">
+                    </div>
+                </div>
+
+                <div id="employer-details" class="space-y-6 hidden">
+                    <div>
+                        <label for="company_website" class="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
+                        <input type="url" id="company_website" name="company_website" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.yourcompany.com">
+                    </div>
+                    <div>
+                        <label for="company_size" class="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
+                        <select id="company_size" name="company_size" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900">
+                            <option value="">Select a size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="500+">500+ employees</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="company_location" class="block text-sm font-medium text-gray-700 mb-1">Company Location</label>
+                        <input type="text" id="company_location" name="company_location" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., San Francisco, CA">
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-6">
+                    <button type="button" id="back-2" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
+                        Back
+                    </button>
+                    <button type="button" id="next-2" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <div id="step-3" class="form-step hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Social & Final Details</h2>
+                
+                <div id="job-seeker-social" class="space-y-6">
+                    <div>
+                        <label for="linkedin_profile" class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Profile</label>
+                        <input type="url" id="linkedin_profile" name="linkedin_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.linkedin.com/in/yourprofile">
+                    </div>
+                    <div>
+                        <label for="portfolio_url" class="block text-sm font-medium text-gray-700 mb-1">Portfolio URL</label>
+                        <input type="url" id="portfolio_url" name="portfolio_url" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://yourportfolio.com">
+                    </div>
+                    <div>
+                        <label for="facebook_profile" class="block text-sm font-medium text-gray-700 mb-1">Facebook Profile</label>
+                        <input type="url" id="facebook_profile" name="facebook_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.facebook.com/yourprofile">
+                    </div>
+                    <div>
+                        <label for="x_profile" class="block text-sm font-medium text-gray-700 mb-1">X (Twitter) Profile</label>
+                        <input type="url" id="x_profile" name="x_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://x.com/yourhandle">
+                    </div>
+                    <div>
+                        <label for="instagram_profile" class="block text-sm font-medium text-gray-700 mb-1">Instagram Profile</label>
+                        <input type="url" id="instagram_profile" name="instagram_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.instagram.com/yourhandle">
+                    </div>
+                    <div>
+                        <label for="resume" class="block text-sm font-medium text-gray-700 mb-1">Upload Resume (PDF only)</label>
+                        <input type="file" id="resume" name="resume" accept=".pdf" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400">
+                    </div>
+                </div>
+                
+                <div id="employer-social" class="space-y-6 hidden">
+                    <div>
+                        <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                        <input type="text" id="industry" name="industry" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Technology, Healthcare">
+                    </div>
+                    <div>
+                        <label for="company_mission" class="block text-sm font-medium text-gray-700 mb-1">Company Mission</label>
+                        <textarea id="company_mission" name="company_mission" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="What is your company's mission?"></textarea>
+                    </div>
+                    <div>
+                        <label for="company_logo" class="block text-sm font-medium text-gray-700 mb-1">Upload Company Logo (PNG/JPEG)</label>
+                        <input type="file" id="company_logo" name="company_logo" accept=".png,.jpeg,.jpg" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400">
+                    </div>
+                    <div>
+                        <label for="company_description" class="block text-sm font-medium text-gray-700 mb-1">Company Description</label>
+                        <textarea id="company_description" name="company_description" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="Tell us about your company..."></textarea>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-6">
+                    <button type="button" id="back-3" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
+                        Back
+                    </button>
+                    <button type="submit" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Register
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-sm text-center text-gray-600 mt-4">
+                Already have an account? <a href="{% url 'login' %}" class="text-indigo-600 font-bold hover:underline">Log In</a>
+            </p>
+        </form>
+
+        <div id="messageBox" class="message-box hidden fixed bottom-4 left-1/2 -translate-x-1/2 p-4 rounded-lg shadow-xl text-center z-[100] transition-all duration-300 transform-gpu">
+            <span id="messageText"></span>
+            <button id="closeMessageBox" class="ml-4 text-white font-bold leading-none">&times;</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const registerForm = document.getElementById('registerForm');
+        const userTypeRadios = document.getElementsByName('userType');
+        const companyNameGroup = document.getElementById('companyNameGroup');
+        const companyNameInput = document.getElementById('companyName');
+        const jobSeekerDetails = document.getElementById('job-seeker-details');
+        const employerDetails = document.getElementById('employer-details');
+        const jobSeekerSocial = document.getElementById('job-seeker-social');
+        const employerSocial = document.getElementById('employer-social');
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+        const closeMessageBox = document.getElementById('closeMessageBox');
+        
+        const formSteps = document.querySelectorAll('.form-step');
+        const stepIndicators = document.querySelectorAll('.step-indicator');
+        const nextButton1 = document.getElementById('next-1');
+        const nextButton2 = document.getElementById('next-2');
+        const backButton2 = document.getElementById('back-2');
+        const backButton3 = document.getElementById('back-3');
+        let currentStep = 0;
+
+        function updateStepIndicators() {
+            stepIndicators.forEach((indicator, index) => {
+                if (index === currentStep) {
+                    indicator.classList.add('active');
+                    indicator.classList.remove('complete');
+                } else if (index < currentStep) {
+                    indicator.classList.add('complete');
+                    indicator.classList.remove('active');
+                } else {
+                    indicator.classList.remove('active', 'complete');
+                }
+            });
+        }
+
+        function showStep(step) {
+            formSteps.forEach((s, index) => {
+                s.classList.toggle('hidden', index !== step);
+            });
+            updateStepIndicators();
+        }
+
+        function validateStep(step) {
+            const currentStepEl = formSteps[step];
+            let requiredFields = [];
+            if (step === 0) { // Step 1
+                requiredFields = [...currentStepEl.querySelectorAll('[required]')];
+                const isEmployer = document.getElementById('employer').checked;
+                if (isEmployer) {
+                    requiredFields.push(companyNameInput);
+                }
+            } else if (step === 1) { // Step 2
+                const isEmployer = document.getElementById('employer').checked;
+                requiredFields = [...(isEmployer ? employerDetails : jobSeekerDetails).querySelectorAll('[required]')];
+            } else if (step === 2) { // Step 3
+                const isEmployer = document.getElementById('employer').checked;
+                requiredFields = [...(isEmployer ? employerSocial : jobSeekerSocial).querySelectorAll('[required]')];
+            }
+            
+            let allValid = true;
+            requiredFields.forEach(field => {
+                if (field.type === 'file' && field.files.length === 0) {
+                    allValid = false;
+                    field.classList.add('border-red-500');
+                } else if (!field.value.trim() && field.type !== 'file') {
+                    allValid = false;
+                    field.classList.add('border-red-500');
+                } else {
+                    field.classList.remove('border-red-500');
+                }
+            });
+            return allValid;
+        }
+
+        function showMessage(message, type) {
+            messageText.textContent = message;
+            messageBox.classList.add('opacity-100', 'translate-y-0');
+            messageBox.classList.remove('hidden', 'opacity-0', 'translate-y-full', 'bg-green-600', 'bg-red-600', 'bg-blue-600');
+            
+            if (type === 'success') {
+                messageBox.classList.add('bg-green-600', 'text-white');
+            } else if (type === 'error') {
+                messageBox.classList.add('bg-red-600', 'text-white');
+            } else {
+                messageBox.classList.add('bg-blue-600', 'text-white');
+            }
+
+            setTimeout(() => {
+                messageBox.classList.add('opacity-0', 'translate-y-full');
+                setTimeout(() => messageBox.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        closeMessageBox.addEventListener('click', () => {
+            messageBox.classList.add('opacity-0', 'translate-y-full');
+            setTimeout(() => messageBox.classList.add('hidden'), 300);
+        });
+
+        userTypeRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                const isEmployer = document.getElementById('employer').checked;
+                companyNameGroup.classList.toggle('hidden', !isEmployer);
+                companyNameInput.toggleAttribute('required', isEmployer);
+                
+                jobSeekerDetails.classList.toggle('hidden', isEmployer);
+                employerDetails.classList.toggle('hidden', !isEmployer);
+                jobSeekerSocial.classList.toggle('hidden', isEmployer);
+                employerSocial.classList.toggle('hidden', !isEmployer);
+            });
+        });
+
+        nextButton1.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            } else {
+                showMessage('Please fill out all required fields.', 'error');
+            }
+        });
+
+        nextButton2.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            } else {
+                showMessage('Please fill out all required fields.', 'error');
+            }
+        });
+
+        backButton2.addEventListener('click', () => {
+            currentStep--;
+            showStep(currentStep);
+        });
+
+        backButton3.addEventListener('click', () => {
+            currentStep--;
+            showStep(currentStep);
+        });
+
+
+        showStep(currentStep);
+    });
+</script>
+
+{% endblock %}

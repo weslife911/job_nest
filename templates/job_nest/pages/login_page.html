@@ -1,0 +1,85 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Log In
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+body {
+    font-family: 'Inter', sans-serif;
+    /* Added a beautiful background image for the Login page */
+    background-image: url('{% static 'images/bg-1.jpg' %}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.glass-container {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.main-content {
+    background-color: #ffffffd0;
+}
+/* Simple style for the icon from Lucide */
+.icon {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+}
+</style>
+
+<main class="container mx-auto px-6 py-12 flex items-center justify-center">
+<div class="glass-container rounded-3xl p-8 md:p-16 w-full max-w-4xl shadow-2xl flex flex-col md:flex-row-reverse text-white">
+    <!-- Added a new image here -->
+    <div class="md:w-1/2 p-4 flex items-center justify-center">
+        <img src="{% static 'images/bg-2.jpg' %}" alt="Login Illustration" class="w-full h-auto object-cover rounded-xl shadow-lg">
+    </div>
+    <div class="md:w-1/2 main-content p-8 rounded-xl shadow-xl">
+        <h1 class="text-3xl font-bold text-gray-900 text-center mb-8">Welcome Back!</h1>
+        <form id="loginForm" class="space-y-6" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-black duration-300">
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300 text-black">
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                        Remember me
+                    </label>
+                </div>
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300">
+                        Forgot your password?
+                    </a>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-300">
+                    Log In
+                </button>
+            </div>
+            <div class="text-center text-sm text-gray-700">
+                Not a member? <a href="register.html" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300">Register here</a>
+            </div>
+        </form>
+    </div>
+</div>
+</main>
+
+{% endblock %}

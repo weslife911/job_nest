@@ -1,0 +1,57 @@
+<header class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+    <nav class="container mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between">
+        <a href="{% url 'home' %}" class="text-3xl font-bold text-indigo-600 hover:text-indigo-700 transition-colors duration-300">JobNest</a>
+        
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center mt-4 md:mt-0">
+            <button id="mobile-menu-btn" class="text-gray-800 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul id="mobile-menu" class="hidden md:flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 text-gray-800 text-lg font-medium transition-all duration-300 ease-in-out">
+            <li><a href="{% url 'home' %}" class="hover:text-indigo-600 transition-colors duration-300 active:text-indigo-600">Home</a></li>
+            
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'browse_jobs' %}" class="hover:text-indigo-600 transition-colors duration-300">Browse Jobs</a></li>
+                <li><a href="{% url 'post_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Post a Job</a></li>
+                <li><a href="{% url 'apply_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Apply for Job</a></li>
+            {% endif %}
+                
+            <li><a href="{% url 'about' %}" class="hover:text-indigo-600 transition-colors duration-300">About Us</a></li>
+            <li><a href="{% url 'contact' %}" class="hover:text-indigo-600 transition-colors duration-300">Contact</a></li>
+            <li><a href="{% url 'faq' %}" class="hover:text-indigo-600 transition-colors duration-300">FAQ</a></li>
+            <!-- Login/Register Buttons for smaller screens -->
+            
+            {% if request.user.is_authenticated %}
+                <div class="hidden md:flex items-center space-x-4">
+                    <p class="text-white text-lg">Hello, {{ request.user.username }} 👋</p>
+                </div>
+            {% else %}
+                <li class="md:hidden">
+                    <a href="{% url 'login' %}" class="block w-full text-center bg-transparent border-2 border-indigo-600 text-indigo-600 font-bold py-2 px-6 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">Log In</a>
+                </li>
+                <li class="md:hidden">
+                    <a href="{% url 'register' %}" class="block w-full text-center bg-indigo-600 text-white font-bold py-2 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300">Register</a>
+            </li>
+            {% endif %}
+                
+        </ul>
+
+        <!-- Desktop Login/Register Buttons -->
+        
+        {% if request.user.is_authenticated %}
+            <div class="hidden md:flex items-center space-x-4">
+                <p class="text-white text-lg">Hello, {{ request.user.username }} 👋</p>
+            </div>
+        {% else %}
+            <div class="hidden md:flex items-center space-x-4">
+            <a href="{% url 'login' %}" class="bg-transparent border-2 border-indigo-600 text-indigo-600 font-bold py-2 px-6 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">Log In</a>
+            <a href="{% url 'register' %}" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300">Register</a>
+        {% endif %}
+            
+    </nav>
+</header>

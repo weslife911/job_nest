@@ -1,0 +1,58 @@
+<footer class="bg-gray-900/90 backdrop-blur-sm text-gray-400 py-12">
+    <div class="container mx-auto px-4 max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+            <h3 class="text-xl font-semibold text-white mb-4">
+                <a href="{% url 'home' %}">JobNest</a>
+            </h3>
+            <p class="text-gray-300 mb-4">Your one-stop destination for finding the perfect job or the perfect candidate.</p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-amber-300 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M8.29 20.25h-3.32v-8.15h3.32v8.15zM6.63 11.23c-1.12 0-2.03-.91-2.03-2.03s.91-2.03 2.03-2.03 2.03.91 2.03 2.03-.91 2.03-2.03 2.03zm12.37 9.02h-3.31v-4.14c0-1.02-.01-2.33-.62-3.15-.54-.73-1.25-1.03-2.01-1.03-1.6 0-1.92 1.25-1.92 2.97v5.35h-3.31v-8.15h3.18v1.49h.04c.44-.79 1.52-1.62 3.09-1.62 3.3 0 3.92 2.17 3.92 4.99v5.29h-.04z"/>
+                    </svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-amber-300 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22.25 4.54c-.82.36-1.7.6-2.6.71.94-.56 1.66-1.45 2.01-2.5-1 .6-2.1 1.04-3.26 1.28-1-.96-2.42-1.56-4.01-1.56-3.03 0-5.49 2.46-5.49 5.49 0 .43.05.85.15 1.25-4.56-.23-8.6-2.4-11.3-5.71-.47.81-.74 1.76-.74 2.76 0 1.9.97 3.58 2.45 4.56-.9-.03-1.74-.27-2.48-.68v.07c0 2.66 1.89 4.88 4.39 5.39-.46.12-.95.18-1.45.18-.35 0-.69-.03-1.02-.1 1.86 5.82 5.75 8.16 10.83 8.24-1.88 1.47-4.25 2.35-6.84 2.35-4.44 0-6.84-2.54-6.84-2.54 1.48.95 3.23 1.51 5.09 1.51 6.1 0 10.59-4.7 10.59-10.59v-.48c.73-.53 1.36-1.2 1.86-1.96z"/>
+                    </svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-amber-300 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 5.094 3.69 9.39 8.5 10.456V14.12H5.503v-3.047H8.5V9.07c0-2.977 1.815-4.606 4.475-4.606 1.272 0 2.366.095 2.686.138v2.964h-1.758c-1.385 0-1.653.658-1.653 1.625v2.126h3.293l-.43 3.047h-2.863V22.456C20.31 21.39 24 17.094 24 12 24 5.373 18.627 0 12 0z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div>
+            <h3 class="text-xl font-semibold text-white mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-gray-300">
+                <li><a href="{% url 'about' %}" class="hover:text-amber-300 transition-colors duration-300">About Us</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'browse_jobs' %}" class="hover:text-amber-300 transition-colors duration-300">Browse Jobs</a></li>
+                    <li><a href="{% url 'post_job' %}" class="hover:text-amber-300 transition-colors duration-300">Post a Job</a></li>
+                {% endif %}
+                <li><a href="{% url 'contact' %}" class="hover:text-amber-300 transition-colors duration-300">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="text-xl font-semibold text-white mb-4">Support</h3>
+            <ul class="space-y-2 text-gray-300">
+                <li><a href="{% url 'faq' %}" class="hover:text-amber-300 transition-colors duration-300">FAQ</a></li>
+                <li><a href="#" class="hover:text-amber-300 transition-colors duration-300">Help Center</a></li>
+                <li><a href="#" class="hover:text-amber-300 transition-colors duration-300">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-amber-300 transition-colors duration-300">Terms of Service</a></li>
+            </ul>
+        </div>
+        <div class="lg:col-span-1 md:col-span-2">
+            <h3 class="text-xl font-semibold text-white mb-4">Join Our Newsletter</h3>
+            <p class="text-gray-300 mb-4">Get the latest job updates and industry news delivered to your inbox.</p>
+            <form class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-2">
+                <input type="email" placeholder="Enter your email" required class="flex-grow p-3 rounded-lg bg-gray-800 border-2 border-transparent focus:border-amber-300 focus:outline-none text-white transition-colors duration-300">
+                <button type="submit" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-300">Subscribe</button>
+            </form>
+        </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500">
+        <p>&copy; {% now 'Y' %} JobNest. All Rights Reserved.</p>
+    </div>
+</footer>

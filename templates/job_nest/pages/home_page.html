@@ -1,0 +1,137 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Find Your Dream Job
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        /* Set the background image and its properties */
+        background-image: url('{% static 'images/bg-1.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    /* Style for the main content container to add a beautiful blur effect */
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .flow-card {
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        border: 1px solid rgba(229, 231, 235, 0.5);
+    }
+    .flow-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
+<div class="glass-container flex-grow">
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+            <!-- Hero Section -->
+            <section class="text-center mb-16">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight text-white mb-4">
+                    Find the right job.
+                    <span class="text-indigo-300 block">Create the perfect job application.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
+                    Discover your next career move and create a professional, stand-out job application with our easy-to-use tools.
+                </p>
+                <!-- Call to action buttons -->
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="browse.html" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Browse Job Listings
+                    </a>
+                    <a href="apply.html" class="bg-gray-300 text-gray-800 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
+                        Create a Job Application
+                    </a>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    <!-- Step 1 -->
+                    <div class="flow-card text-center">
+                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl md:text-4xl font-bold">
+                            1
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Find Your Job</h3>
+                        <p class="text-gray-600">Search through our extensive database of job opportunities tailored to your skills and interests.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flow-card text-center">
+                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl md:text-4xl font-bold">
+                            2
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Build Your Job Application</h3>
+                        <p class="text-gray-600">Use our powerful job application builder to create a professional application that gets noticed by recruiters.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flow-card text-center">
+                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl md:text-4xl font-bold">
+                            3
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Land the Interview</h3>
+                        <p class="text-gray-600">Apply to jobs with confidence and get ready to impress hiring managers with your polished application.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- What We Offer Section -->
+            <section>
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12">What We Offer</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Feature Card 1 -->
+                    <div class="flow-card text-center">
+                        <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Advanced Job Search</h3>
+                        <p class="text-gray-600">Filter jobs by industry, location, salary, and more to find the perfect match quickly.</p>
+                    </div>
+                    <!-- Feature Card 2 -->
+                    <div class="flow-card text-center">
+                        <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Professional Job Application Builder</h3>
+                        <p class="text-gray-600">Create a professional job application with our easy-to-use builder. Choose from a variety of templates.</p>
+                    </div>
+                    <!-- Feature Card 3 -->
+                    <div class="flow-card text-center">
+                        <div class="text-indigo-600 mb-4 mx-auto flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 3c0 3.5 1.5 5.2 3 7l2 2"/><path d="M20.5 9.5a2.15 2.15 0 0 1 .5 1.62A2.3 2.3 0 0 1 18 14.5a3.6 3.6 0 0 1-5 1.5 7.5 7.5 0 0 0-2 3"/><path d="M8.5 20.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Career Advice and Resources</h3>
+                        <p class="text-gray-600">Gain a competitive edge with expert tips, articles, and guides on career development and job searching.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+    
+{% endblock %}
+    
