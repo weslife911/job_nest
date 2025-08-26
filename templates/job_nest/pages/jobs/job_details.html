@@ -1,0 +1,132 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Job Details
+{% endblock %}
+    
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-image: url('{% static 'images/bg-3.avif' %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .main-content {
+        background-color: #ffffffd0;
+    }
+</style>
+
+<div class="glass-container flex-grow flex items-center justify-center py-12">
+        <div class="main-content w-full max-w-4xl mx-auto p-8 md:p-12 rounded-2xl shadow-xl border border-gray-200">
+            <div class="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 mb-8">
+                
+                {% if job.employer.company_logo %}
+                    <img src="{{job.employer.company_logo.url}}" alt="{{job.employer.company_name}}" class="rounded-full w-24 h-24 shadow-md">
+                {% else %}
+                    <img src="https://placehold.co/100x100/E0E7FF/4F46E5?text={{job.employer.company_name|slice:':1'}}" alt="Company Logo" class="rounded-full w-24 h-24 shadow-md">
+                {% endif %}
+                    
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-1">{{job.job_title}}</h1>
+                    <p class="text-xl text-indigo-600 font-semibold">{{job.employer.company_name}}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <!-- Left Column - Job Details -->
+                <div class="space-y-4">
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="text-lg font-bold text-gray-700 mb-1">Job Type</h4>
+                        <p class="text-gray-900">{{job.job_type|capfirst}}</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="text-lg font-bold text-gray-700 mb-1">Salary</h4>
+                        <p class="text-gray-900">{{job.salary}}</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="text-lg font-bold text-gray-700 mb-1">Status</h4>
+                        <p class="text-gray-900">{{job.job_status|capfirst}}</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="text-lg font-bold text-gray-700 mb-1">Posted On</h4>
+                        <p class="text-gray-900">{{job.created}}</p>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <h4 class="text-lg font-bold text-gray-700 mb-1">Last Updated</h4>
+                        <p class="text-gray-900">{{job.updated}}</p>
+                    </div>
+                </div>
+
+                <!-- Right Column - Description and Apply Button -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Job Description</h3>
+                        <div class="text-gray-700 leading-relaxed job-description-content">
+                            <p>{{job.job_description}}</p>
+                            <br>
+                            
+                            {% if job.responsibilities %}
+                                <p><strong>Responsibilities:</strong></p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    
+                                    {% for responsibility in job.responsibilities %}
+                                        <li>{{responsibility}}</li>
+                                    {% endfor %}
+                                        
+                                </ul>
+                                <br>
+                            {% endif %}
+                                
+                            {% if job.qualifications %}
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Qualifications</h3>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                        {% for qualification in job.qualifications %}
+                                            <li>{{ qualification }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            {% if job.benefits %}
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Benefits</h3>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                        {% for benefit in job.benefits %}
+                                            <li>{{ benefit }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="{% url 'apply_job' job.id %}" class="inline-block bg-indigo-600 text-white font-bold py-4 px-12 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                    Apply Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Mobile menu toggle logic
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+{% endblock %}

@@ -10,4 +10,93 @@
 
 {% block content %}
 
+<main class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto main-content rounded-xl shadow-lg p-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Welcome Back, {{request.user.full_name}}!</h1>
+            <p class="text-gray-600 text-lg mb-8">Your journey to a new career continues.</p>
+
+            <!-- Dashboard Sections Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- Applications Summary -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">My Applications</h2>
+                    <ul class="space-y-4">
+                        
+                        {% if applications %}
+                            {% for application in applications  %}
+                                <li class="p-4 rounded-lg bg-white shadow flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="h-12 w-12 flex-shrink-0">
+                                            {% if application.job.employer.company_logo %}
+                                                <img class="h-12 w-12 rounded-full object-cover"
+                                                    src="{{ application.job.employer.company_logo.url }}"
+                                                    alt="{{ application.job.employer.company_name }} logo">
+                                            {% else %}
+                                                <div class="h-12 w-12 rounded-full flex items-center justify-center bg-indigo-500 text-white font-bold text-xl">
+                                                    {{ application.job.employer.company_name|first|upper }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-gray-800">{{application.job.job_title}}</h3>
+                                            <p class="text-sm text-gray-500">{{application.job.employer.company_name}}</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-bold text-yellow-500">{{application.job.job_status|capfirst}}</span>
+                                </li>
+                            {% empty %}
+                                <li class="p-4 text-center text-gray-500">
+                                    <p>No applications found at the moment.</p>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <div class="p-4 text-center text-gray-500">
+                                <p>There are no applications to display.</p>
+                            </div>
+                        {% endif %}
+                            
+                        
+                    </ul>
+                    <a href="{% url 'all_job_seeker_applications' %}" class="mt-4 inline-block text-indigo-600 hover:underline">View All Applications &rarr;</a>
+                </div>
+
+                <!-- Job Recommendations -->
+                <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Recommended Jobs</h2>
+                    <ul class="space-y-4">
+                        
+                        {% if jobs %}
+                            {% for job in jobs %}
+                                <li class="p-4 rounded-lg bg-white shadow">
+                                    <h3 class="font-semibold text-gray-800">{{job.job_title}}</h3>
+                                    <p class="text-sm text-gray-500 mb-2">{{job.employer.company_name}} - {{job.job_status}}</p>
+                                    <p class="text-sm text-gray-600 line-clamp-2">{{job.job_description|truncatewords:20}}...</p>
+                                    <a href="{% url 'apply_job' job.id %}" class="mt-2 inline-block text-indigo-600 hover:underline text-sm font-medium">Apply Now</a>
+                                </li>
+                            {% empty %}
+                                <li class="p-4 text-center text-gray-500">
+                                    <p>No jobs found at the moment.</p>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <div class="p-4 text-center text-gray-500">
+                                <p>There are no jobs to display.</p>
+                            </div>
+                        {% endif %}
+                            
+                    </ul>
+                    <a href="{% url 'all_jobs' %}" class="mt-4 inline-block text-indigo-600 hover:underline">Browse More Jobs &rarr;</a>
+                </div>
+            </div>
+            
+            <!-- Link to Profile -->
+            <div class="text-center mt-8">
+                <a href="{% url 'job_seeker_profile' %}" class="inline-block bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-700 transition-colors duration-300">
+                    <span class="mr-2"></span> Manage My Profile
+                </a>
+            </div>
+
+        </div>
+    </main>
+
 {% endblock %}

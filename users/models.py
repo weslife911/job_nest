@@ -21,6 +21,7 @@ class JobSeekerProfile(models.Model):
     skills = models.CharField(max_length=255, blank=True)
     experience = models.PositiveSmallIntegerField(blank=True)
     location = models.CharField(max_length=100, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     
     linkedin_profile = models.URLField(max_length=200, blank=True)
     portfolio_url = models.URLField(max_length=200, blank=True, null=True)
@@ -36,6 +37,7 @@ class EmployerProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
 
     company_name = models.CharField(max_length=150)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
     
     company_website = models.URLField(max_length=200, blank=True)
     company_size = models.CharField(max_length=20, blank=True)

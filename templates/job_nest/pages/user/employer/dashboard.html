@@ -48,7 +48,22 @@
                     
                     {% if jobs %}
                         <div id="active-jobs-list" class="space-y-4">
-
+                            <ul class="space-y-4">
+                                
+                                {% for job in jobs %}
+                                    <li class="p-4 rounded-lg bg-white shadow flex items-center justify-between">
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">{{ job.job_title }}</h3>
+                                        <p class="text-sm text-gray-500">Posted: {{ job.created|timesince }} ago</p>
+                                    </div>
+                                    <span class="text-sm font-bold text-indigo-500">
+                                        {{ job.applicant_count }} Applicants
+                                    </span>
+                                    </li>
+                                {% endfor %}
+                                    
+                            </ul>
+                    <a href="#" class="mt-4 inline-block text-indigo-600 hover:underline">View All Listings &rarr;</a>
                         </div>
                     {% else %}
                         <div id="no-jobs-message" class="text-center py-10">
@@ -63,17 +78,31 @@
                 <!-- Recent Applications -->
                 <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Recent Applications</h2>
-
-                    <!-- Application listings will be rendered here by JS -->
-
-                    <!-- <div id="recent-applications-list" class="space-y-4">
-
-                    </div> -->
-                    <div id="no-applications-message" class="text-center py-10">
-                        <p class="text-gray-500 italic">No applications to show right now.</p>
-                        <p class="text-sm text-gray-500 mt-2">Check back soon or post more jobs to get applicants.</p>
-                    </div>
-                    <a href="#" id="manage-all-applications-link" class="mt-4 inline-block text-indigo-600 hover:underline" style="display: none;">Manage All Applications &rarr;</a>
+                    
+                    {% if applications %}
+                        <div id="recent-applications-list" class="space-y-4">
+                            <ul class="space-y-4">
+                                
+                                {% for application in applications %}
+                                    <li class="p-4 rounded-lg bg-white shadow">
+                                        <h3 class="font-semibold text-gray-800">Application for {{application.job.job_title}}</h3>
+                                        <p class="text-sm text-gray-500 mb-2">From: {{application.job_seeker.full_name}}</p>
+                                        <a href="#" class="mt-2 inline-block text-indigo-600 hover:underline text-sm font-medium">View Application</a>
+                                    </li>
+                                {% endfor %}
+                                    
+                            </ul>
+                            <a href="#" class="mt-4 inline-block text-indigo-600 hover:underline">Manage All Applications &rarr;</a>
+                        </div>
+                    {% else %}
+                        <div id="no-applications-message" class="text-center py-10">
+                            <p class="text-gray-500 italic">No applications to show right now.</p>
+                            <p class="text-sm text-gray-500 mt-2">Check back soon or post more jobs to get applicants.</p>
+                        </div>
+                        <a href="#" id="manage-all-applications-link" class="mt-4 inline-block text-indigo-600 hover:underline" style="display: none;">Manage All Applications &rarr;</a>
+                        {% endif %}
+                        
+                    
                 </div>
             </div>
             

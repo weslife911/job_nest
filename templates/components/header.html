@@ -31,8 +31,7 @@
             {% if request.user.is_authenticated %}
                 
                 {% if request.user.user_type == "job-seeker" %}
-                    <li><a href="{% url 'browse_jobs' %}" class="hover:text-indigo-600 transition-colors duration-300">Browse Jobs</a></li>
-                    <li><a href="{% url 'apply_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Apply for Job</a></li>
+                    <li><a href="{% url 'all_jobs' %}" class="hover:text-indigo-600 transition-colors duration-300">Browse Jobs</a></li>
                 {% else %}
                     <li><a href="{% url 'post_job' %}" class="hover:text-indigo-600 transition-colors duration-300">Post a Job</a></li>
                 {% endif %}

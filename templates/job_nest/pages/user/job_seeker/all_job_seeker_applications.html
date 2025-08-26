@@ -1,0 +1,97 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Job Seeker Applications
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+    }
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .main-content {
+        background-color: #ffffffd0;
+    }
+</style>
+
+<main class="container mx-auto px-6 py-12">
+    <div class="max-w-4xl mx-auto main-content rounded-xl shadow-lg p-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">My Applications</h1>
+        <p class="text-gray-600 text-lg mb-8">View the status of all your submitted job applications.</p>
+
+        <!-- Applications List -->
+        <ul class="space-y-4 mb-8">
+            <!-- Loop through a list of applications provided by your Django view -->
+            {% for application in applications %}
+            <li class="p-4 rounded-lg bg-white shadow flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <!-- Company Logo -->
+                    <div class="h-12 w-12 flex-shrink-0">
+                        
+                        {% if application.job.employer.company_logo %}
+                            <img class="h-12 w-12 rounded-full object-cover"
+                            src="{{ application.job.employer.company_logo.url }}"
+                            alt="{{ application.job.employer.company_name }} logo">
+                        {% else %}
+                            <div class="h-12 w-12 rounded-full flex items-center justify-center bg-indigo-500 text-white font-bold text-xl">
+                                {{ application.job.employer.company_name|first|upper }}
+                            </div>
+                        {% endif %}
+                            
+                        
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">{{application.job.job_title}}</h3>
+                        <p class="text-sm text-gray-500">{{application.job.employer.company_name}}</p>
+                    </div>
+                </div>
+                <!-- Display application status dynamically -->
+                {% if application.job.job_status|capfirst == 'pending' %}
+                    <span class="text-sm font-bold text-yellow-500 capitalize">{{ application.job.job_status|capfirst }}</span>
+                {% elif application.job.job_status|capfirst == 'accepted' %}
+                    <span class="text-sm font-bold text-green-500 capitalize">{{ application.job.job_status|capfirst }}</span>
+                {% elif application.job.job_status|capfirst == 'rejected' %}
+                    <span class="text-sm font-bold text-red-500 capitalize">{{ application.job.job_status|capfirst }}</span>
+                {% else %}
+                    <span class="text-sm font-bold text-gray-500 capitalize">{{ application.job.job_status|capfirst }}</span>
+                {% endif %}
+            </li>
+            {% empty %}
+                <p class="text-center text-gray-500">You haven't submitted any applications yet.</p>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination Controls -->
+        <nav class="flex justify-center items-center space-x-2 mt-8" aria-label="Pagination">
+            {% if applications.has_previous %}
+                <a href="?page={{ applications.previous_page_number }}" class="px-3 py-1 text-sm font-medium rounded-md text-gray-500 hover:text-indigo-600 hover:bg-gray-100 transition-colors duration-200">Previous</a>
+            {% endif %}
+
+            <span class="text-sm font-medium text-gray-700">Page {{ applications.number }} of {{ applications.paginator.num_pages }}</span>
+
+            {% if applications.has_next %}
+                <a href="?page={{ applications.next_page_number }}" class="px-3 py-1 text-sm font-medium rounded-md text-gray-500 hover:text-indigo-600 hover:bg-gray-100 transition-colors duration-200">Next</a>
+            {% endif %}
+        </nav>
+    </div>
+</main>
+
+<script>
+    // Mobile menu toggle logic
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+
+{% endblock %}

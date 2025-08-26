@@ -1,0 +1,135 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Job Seeker Profile
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+    }
+    .glass-container {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .main-content {
+        background-color: #ffffffd0;
+    }
+</style>
+
+<main class="container mx-auto px-6 py-12">
+    <div class="max-w-4xl mx-auto main-content rounded-xl shadow-lg p-8">
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">My Profile</h1>
+        <p class="text-gray-600 text-lg mb-8">Update your information and manage your resume.</p>
+
+        <form action="{% url 'job_seeker_profile' %}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            <!-- User Information -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Personal Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="full_name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="full_name" name="full_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{ user.user.full_name }}">
+                    </div>
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="username" name="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{ user.user.username }}" readonly>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{ user.user.email }}" readonly>
+                    </div>
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" id="location" name="location" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.location}}">
+                    </div>
+                    <div>
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" id="phone_number" name="phone_number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.phone_number}}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Information -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Professional Details</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label for="skills" class="block text-sm font-medium text-gray-700">Skills (comma separated)</label>
+                        <input type="text" id="skills" name="skills" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.skills}}">
+                    </div>
+                    <div>
+                        <label for="experience" class="block text-sm font-medium text-gray-700">Years of Experience</label>
+                        <input
+                            type="number"
+                            id="experience"
+                            name="experience"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+                            value="{{user.experience}}">
+                    </div>
+
+                    <div>
+                        <label for="resume" class="block text-sm font-medium text-gray-700">Resume (PDF or Word only) </label>
+                        <input type="file" accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" id="resume" name="resume" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                        <p class="mt-1 text-sm text-gray-500">{{user.resume}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social and Portfolio Links -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow-inner">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Online Profiles</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="linkedin_profile" class="block text-sm font-medium text-gray-700">LinkedIn Profile</label>
+                        <input type="url" id="linkedin_profile" name="linkedin_profile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.linkedin_profile}}">
+                    </div>
+                    <div>
+                        <label for="portfolio_url" class="block text-sm font-medium text-gray-700">Portfolio URL</label>
+                        <input type="url" id="portfolio_url" name="portfolio_url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.portfolio_url}}">
+                    </div>
+                    <div>
+                        <label for="x_profile" class="block text-sm font-medium text-gray-700">X (Twitter) Profile</label>
+                        <input type="url" id="x_profile" name="x_profile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.x_profile}}">
+                    </div>
+                    <div>
+                        <label for="facebook_profile" class="block text-sm font-medium text-gray-700">Facebook Profile</label>
+                        <input type="url" id="facebook_profile" name="facebook_profile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.facebook_profile}}">
+                    </div>
+                    <div>
+                        <label for="instagram_profile" class="block text-sm font-medium text-gray-700">Instagram Profile</label>
+                        <input type="url" id="instagram_profile" name="instagram_profile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2" value="{{user.instagram_profile}}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end mt-8">
+                <button type="submit" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-indigo-700 transition-colors duration-300">
+                    Save Profile
+                </button>
+            </div>
+        </form>
+
+    </div>
+</main>
+
+<script>
+    // Mobile menu toggle logic
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+
+{% endblock %}

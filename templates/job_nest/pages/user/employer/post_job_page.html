@@ -1,0 +1,259 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Post a Job
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        /* Using a placeholder image for the background, like the other pages */
+        background-image: url('{% static 'images/bg-1.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .glass-container {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .main-content {
+            background-color: #ffffffd0;
+        }
+        /* Custom message box style */
+        .message-box {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: translateY(20px);
+        }
+</style>
+
+<div class="glass-container flex-grow flex items-center justify-center py-12">
+        <div class="main-content w-full max-w-2xl mx-auto p-8 rounded-2xl shadow-xl border border-gray-200">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Post a Job</h1>
+                <p class="text-gray-600 mt-2">Fill out the details below to post a new job listing.</p>
+            </div>
+
+            <!-- Job Posting Form -->
+            <form id="postJobForm" class="space-y-6" method="post" action="{% url 'post_job' %}">
+                {% csrf_token %}
+                <!-- Job Title -->
+                <div>
+                    <label for="jobTitle" class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                    <input type="text" id="jobTitle" name="job_title" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Senior Software Engineer">
+                </div>
+
+                <!-- Job Type and Salary - Two columns -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="jobType" class="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                        <select id="jobType" name="job_type" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900">
+                            <option value="">Select Job Type</option>
+                            <option value="full-time">Full-time</option>
+                            <option value="part-time">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="remote">Remote</option>
+                            <option value="internship">Internship</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="salary" class="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
+                        <input type="text" id="salary" name="salary" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., $80,000 - $100,000">
+                    </div>
+                </div>
+
+                <!-- Job Description -->
+                <div>
+                    <label for="jobDescription" class="block text-sm font-medium text-gray-700 mb-1">Job Description</label>
+                    <textarea id="jobDescription" name="job_description" rows="4" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="Provide a detailed description of the role."></textarea>
+                </div>
+
+                <!-- Job Responsibilities (Dynamic Input) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Responsibilities</label>
+                    <div id="responsibilities-container" class="space-y-3">
+                        <div class="flex items-center space-x-2 dynamic-input-group">
+                            <span class="text-sm text-gray-500 font-bold w-6 flex-shrink-0">1.</span>
+                            <input type="text" name="responsibilities[]" required class="flex-grow p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Develop and maintain web applications">
+                            <button type="button" class="add-input-btn p-2 rounded-full bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition-colors duration-300">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Qualifications (Dynamic Input) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Qualifications</label>
+                    <div id="qualifications-container" class="space-y-3">
+                        <div class="flex items-center space-x-2 dynamic-input-group">
+                            <span class="text-sm text-gray-500 font-bold w-6 flex-shrink-0">1.</span>
+                            <input type="text" name="qualifications[]" required class="flex-grow p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Bachelor's degree in Computer Science">
+                            <button type="button" class="add-input-btn p-2 rounded-full bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition-colors duration-300">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Benefits (Dynamic Input) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Benefits</label>
+                    <div id="benefits-container" class="space-y-3">
+                        <div class="flex items-center space-x-2 dynamic-input-group">
+                            <span class="text-sm text-gray-500 font-bold w-6 flex-shrink-0">1.</span>
+                            <input type="text" name="benefits[]" required class="flex-grow p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Health, dental, and vision insurance">
+                            <button type="button" class="add-input-btn p-2 rounded-full bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition-colors duration-300">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                    Post Job
+                </button>
+            </form>
+
+            <!-- Custom Message Box for success/error messages -->
+            <div id="messageBox" class="message-box hidden fixed bottom-4 left-1/2 -translate-x-1/2 p-4 rounded-lg shadow-xl text-center z-[100] transition-all duration-300 transform-gpu">
+                <span id="messageText"></span>
+                <button id="closeMessageBox" class="ml-4 text-white font-bold leading-none">&times;</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+        // Mobile menu toggle logic
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Custom message box logic
+        const messageBox = document.getElementById('messageBox');
+        const messageText = document.getElementById('messageText');
+        const closeMessageBox = document.getElementById('closeMessageBox');
+        const postJobForm = document.getElementById('postJobForm');
+
+        function showMessage(message, type = 'info') {
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden', 'bg-green-600', 'bg-red-600', 'bg-blue-600', 'text-white', 'opacity-0', 'translate-y-full');
+            messageBox.classList.add('flex', 'opacity-100');
+
+            if (type === 'success') {
+                messageBox.classList.add('bg-green-600', 'text-white');
+            } else if (type === 'error') {
+                messageBox.classList.add('bg-red-600', 'text-white');
+            } else {
+                messageBox.classList.add('bg-blue-600', 'text-white');
+            }
+
+            setTimeout(() => {
+                messageBox.classList.add('opacity-0', 'translate-y-full');
+                setTimeout(() => messageBox.classList.add('hidden'), 300);
+            }, 3000);
+        }
+
+        closeMessageBox.addEventListener('click', () => {
+            messageBox.classList.add('opacity-0', 'translate-y-full');
+            setTimeout(() => messageBox.classList.add('hidden'), 300);
+        });
+
+        // Function to update the numbering for all dynamic input fields
+        function updateNumbering(containerId) {
+            const container = document.getElementById(containerId);
+            const inputGroups = container.querySelectorAll('.dynamic-input-group');
+            inputGroups.forEach((group, index) => {
+                const numberSpan = group.querySelector('span');
+                numberSpan.textContent = `${index + 1}.`;
+            });
+        }
+
+        // Function to create a new input field with a remove button
+        function createInputField(containerId, name) {
+            const container = document.getElementById(containerId);
+
+            // Create the new div for the input group
+            const newDiv = document.createElement('div');
+            newDiv.classList.add('flex', 'items-center', 'space-x-2', 'dynamic-input-group');
+
+            // Create the numbering span
+            const numberSpan = document.createElement('span');
+            numberSpan.classList.add('text-sm', 'text-gray-500', 'font-bold', 'w-6', 'flex-shrink-0');
+            
+            // Create the new input element
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = name;
+            newInput.required = true;
+            newInput.classList.add('flex-grow', 'p-3', 'rounded-lg', 'border-2', 'border-gray-300', 'focus:border-indigo-500', 'focus:outline-none', 'transition-colors', 'duration-300', 'bg-white', 'text-gray-900', 'placeholder-gray-400');
+
+            // Create the add/remove buttons container
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('flex', 'space-x-2');
+
+            // Create the add button
+            const addButton = document.createElement('button');
+            addButton.type = 'button';
+            addButton.classList.add('add-input-btn', 'p-2', 'rounded-full', 'bg-indigo-600', 'text-white', 'font-bold', 'hover:bg-indigo-700', 'transition-colors', 'duration-300');
+            addButton.textContent = '+';
+            
+            // Create the remove button
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.classList.add('remove-input-btn', 'p-2', 'rounded-full', 'bg-red-500', 'text-white', 'font-bold', 'hover:bg-red-600', 'transition-colors', 'duration-300');
+            removeButton.textContent = '–';
+
+            // Append elements to the new div
+            newDiv.appendChild(numberSpan);
+            newDiv.appendChild(newInput);
+            buttonContainer.appendChild(removeButton);
+            buttonContainer.appendChild(addButton);
+            newDiv.appendChild(buttonContainer);
+
+            // Append the new div to the container
+            container.appendChild(newDiv);
+
+            // Update numbering after adding the new field
+            updateNumbering(containerId);
+        }
+
+        // Attach event listeners using event delegation for all containers
+        document.addEventListener('click', (event) => {
+            // Handle add button click
+            if (event.target.classList.contains('add-input-btn')) {
+                const container = event.target.closest('.space-y-3');
+                const containerId = container.id;
+                const inputName = container.querySelector('input').name;
+                createInputField(containerId, inputName);
+            }
+
+            // Handle remove button click
+            if (event.target.classList.contains('remove-input-btn')) {
+                const inputGroup = event.target.closest('.dynamic-input-group');
+                const containerId = inputGroup.parentElement.id;
+                
+                // Only remove if there's more than one field left
+                if (document.getElementById(containerId).querySelectorAll('.dynamic-input-group').length > 1) {
+                    inputGroup.remove();
+                    updateNumbering(containerId);
+                } else {
+                    showMessage("You must have at least one field.", "error");
+                }
+            }
+        });
+
+        // Initialize numbering on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNumbering('responsibilities-container');
+            updateNumbering('qualifications-container');
+            updateNumbering('benefits-container');
+        });
+
+        ergr
+    </script>
+
+{% endblock %}
