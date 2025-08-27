@@ -1,0 +1,158 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+    Employer Profile
+{% endblock %}
+    
+
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f3f4f6;
+    }
+</style>
+
+<main class="container mx-auto px-6 py-12 flex-grow">
+    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center justify-between mb-8 pb-4 border-b-2 border-gray-200">
+            <div class="text-center md:text-left md:flex md:items-center">
+                <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-3xl text-gray-500 font-bold overflow-hidden border-4 border-white shadow-md">
+                    
+                    {% if employer.company_logo %}
+                        <img id="company-logo" src="{{employer.company_logo.url}}" alt="{{employer.company_name}}" class="object-cover w-full h-full">
+                    {% else %}
+                        <img id="company-logo" src="https://placehold.co/150x150/5B63E2/FFFFFF?text={{employer.company_name|slice:":1"}}" alt="{{employer.company_name}}" class="object-cover w-full h-full">
+                    {% endif %}
+                        
+                </div>
+                <div class="md:ml-6 mt-4 md:mt-0">
+                    <!-- Placeholder data -->
+                    <h1 id="company-name" class="text-3xl font-bold text-gray-800">{{employer.company_name}}</h1>
+                    <p id="company-tagline" class="text-lg text-gray-500">{{employer.industry}}</p>
+                </div>
+            </div>
+            <!-- Edit button for the profile -->
+            
+            {% if request.user.is_authenticated %}
+                
+                {% if employer.user == request.user %}
+                    <a href="{% url 'employer_profile_edit' %}" class="mt-6 md:mt-0 bg-indigo-600 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Edit Profile
+                    </a>
+                {% endif %}
+                    
+            {% endif %}
+                
+        </div>
+
+        <!-- Company Details Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Company Description</h2>
+                <p id="company-description" class="text-gray-700 leading-relaxed mb-6">
+                    {{employer.company_description}}
+                </p>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Mission</h2>
+                <p id="company-mission" class="text-gray-700 leading-relaxed">
+                    {{employer.company_mission}}
+                </p>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Company Information</h2>
+                <ul class="space-y-3 text-gray-700">
+                    <li><strong>Location:</strong> <span id="company-location">{{employer.company_location}}</span></li>
+                    <li><strong>Website:</strong> <a id="company-website" href="{{employer.company_website}}" class="text-indigo-600 hover:underline">{{employer.company_website}}</a></li>
+                    <li><strong>Industry:</strong> <span id="company-industry">{{employer.industry}}</span></li>
+                    <li><strong>Team Size:</strong> <span id="company-team-size">{{employer.company_size}} employees</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Posted Jobs Section -->
+        <div class="mt-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-800">Posted Jobs</h2>
+                <a href="{% url 'post_job' %}" class="text-sm font-semibold text-indigo-600 hover:underline">Post New Job</a>
+            </div>
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="p-6 bg-gray-50 rounded-lg shadow-md grid grid-cols-3 gap-4 items-center">
+                        <h3 class="text-lg font-semibold text-gray-800 col-span-1 text-left">{{ job.job_title }}</h3>
+                        <p class="text-sm text-gray-500 mt-1 col-span-1 text-center">
+                            <span class="font-bold text-indigo-600">{{ job.applicant_count }}</span> Applications
+                        </p>
+                        <div class="col-span-1 text-right">
+                            <a href="#" class="text-indigo-600 font-semibold hover:underline">View Applications</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="mt-8 flex justify-center items-center space-x-2">
+                    {% if jobs.has_previous %}
+                        <a href="?page={{ jobs.previous_page_number }}" class="bg-white text-gray-600 font-semibold py-2 px-4 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors duration-300">Previous</a>
+                    {% endif %}
+                    <span class="px-4 py-2 text-gray-700">Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</span>
+                    {% if jobs.has_next %}
+                        <a href="?page={{ jobs.next_page_number }}" class="bg-white text-gray-600 font-semibold py-2 px-4 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors duration-300">Next</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p class="text-center text-gray-500">No jobs posted yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+
+<script>
+    // Mobile menu toggle logic
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Pagination and Job Listing logic
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const jobsPerPage = 5;
+        let currentPage = 1;
+        const jobListContainer = document.getElementById('job-list-container');
+        const paginationLinksContainer = document.getElementById('pagination-links');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function renderJobs() {
+            jobListContainer.innerHTML = '';
+            const start = (currentPage - 1) * jobsPerPage;
+            const end = start + jobsPerPage;
+            const jobsToDisplay = jobs.slice(start, end);
+
+            if (jobsToDisplay.length === 0) {
+                jobListContainer.innerHTML = `<p class="text-center text-gray-500">No jobs posted yet.</p>`;
+                return;
+            }
+
+            jobsToDisplay.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'p-6 bg-gray-50 rounded-lg shadow-md flex items-center justify-between';
+                jobCard.innerHTML = `
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">${job.title}</h3>
+                        <p class="text-sm text-gray-500 mt-1">
+                            <span class="font-bold text-indigo-600">${job.applications}</span> Applications
+                        </p>
+                    </div>
+                    <a href="#" class="text-indigo-600 font-semibold hover:underline">View Applications</a>
+                `;
+                jobListContainer.appendChild(jobCard);
+            });
+        }
+
+    });
+</script>
+
+{% endblock %}

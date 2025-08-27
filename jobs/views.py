@@ -10,6 +10,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 import json
 from django.db.models import Count
+from django.core.mail import send_mail
+from django.conf import settings
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.template.loader import render_to_string
 
 # Create your views here.
 def home_view(request):
@@ -19,7 +24,49 @@ def about_view(request):
     return render(request, "job_nest/pages/guest/about_page.html")
 
 def contact_view(request):
+    if request.method == "POST":
+        full_name = request.POST.get("full_name")
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
+
+        if subject and message and full_name and email:
+            try:
+                # Validate email format
+                validate_email(email)
+
+                context = {
+                    "full_name": full_name,
+                    "email": email,
+                    "subject": subject,
+                    "message": message,
+                }
+
+                html_message = render_to_string(
+                    "job_nest/pages/emails/contact_email.html", context
+                )
+                send_mail(
+                    f"New Contact Form Submission: {subject}",
+                    message,
+                    email,
+                    [settings.EMAIL_HOST_USER],
+                    html_message=html_message,
+                    fail_silently=False,
+                )
+
+                messages.success(request, "Your message has been sent successfully!")
+                return redirect('contact')
+
+            except ValidationError:
+                messages.error(request, "Please enter a valid email address.")
+            except Exception as e:
+                print(f"An error occurred while sending the email: {e}")
+                messages.error(request, "An error occurred while sending your message. Please try again later.")
+        else:
+            messages.error(request, "All fields are required.")
+
     return render(request, "job_nest/pages/guest/contact_page.html")
+
 
 def faq_view(request):
     return render(request, "job_nest/pages/guest/faq_page.html")
@@ -69,7 +116,7 @@ def employer_dashboard_view(request):
     try:
         employer = EmployerProfile.objects.get(user=request.user)
     except EmployerProfile.DoesNotExist:
-        return redirect("some_error_page")
+        return redirect("404")
     
     jobs = Job.objects.filter(employer=employer).annotate(applicant_count=Count('jobapplied'))
     applications = JobApplied.objects.all()
@@ -218,3 +265,36 @@ def job_details_view(request, pk):
         "job": job
     }
     return render(request, "job_nest/pages/jobs/job_details.html", context)
+
+@login_required(login_url="login")
+def employer_profile_view(request):
+    employer = EmployerProfile.objects.get(user=request.user)
+    jobs_list = Job.objects.filter(employer=employer).annotate(applicant_count=Count('jobapplied'))
+    paginator = Paginator(jobs_list, 5)
+    page = request.GET.get('page')
+    try:
+        jobs = paginator.page(page)
+    except PageNotAnInteger:
+        jobs = paginator.page(1)
+    except EmptyPage:
+        jobs = paginator.page(paginator.num_pages)
+    return render(request, "job_nest/pages/user/employer/employer_profile.html", {"employer": employer, "jobs": jobs})
+
+def fallback_page_view(request):
+    return render(request, "job_nest/pages/404/404.html")
+
+@login_required(login_url="login")
+def employer_profile_edit_view(request):
+    if request.user.user_type != "employer":
+        return redirect("job_seeker_dashboard")
+    employer = EmployerProfile.objects.get(user=request.user)
+    return render(request, "job_nest/pages/user/employer/employer_profile_edit_view.html", {"employer": employer})
+
+@login_required(login_url="login")
+def employer_all_job_applications(request):
+    if request.user.user_type != "employer":
+        return redirect("job_seeker_dashboard")
+    employer = EmployerProfile.objects.get(user=request.user)
+    jobs = Job.objects.filter(employer=employer)
+    applications = JobApplied.objects.filter(job__in=jobs)
+    return render(request, "job_nest/pages/user/employer/job_applications.html", {"applications": applications})

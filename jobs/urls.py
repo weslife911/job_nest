@@ -14,5 +14,9 @@ urlpatterns = [
     path("apply-job/<str:pk>/", views.apply_job_view, name="apply_job"),
     path("job-seeker/applications/", views.all_job_seeker_applications, name="all_job_seeker_applications"),
     path("browse-jobs/", views.all_jobs_view, name="all_jobs"),
-    path("job/<str:pk>/", views.job_details_view, name="job_details")
+    path("job/<str:pk>/", views.job_details_view, name="job_details"),
+    path("employer/profile/", views.employer_profile_view, name="employer_profile"),
+    path("404/", views.fallback_page_view, name="404"),
+    path("employer/profile/edit/", views.employer_profile_edit_view, name="employer_profile_edit"),
+    path("employer/job-applications/", views.employer_all_job_applications, name="all_applications")
 ]
