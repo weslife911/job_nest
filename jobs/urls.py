@@ -18,5 +18,6 @@ urlpatterns = [
     path("employer/profile/", views.employer_profile_view, name="employer_profile"),
     path("404/", views.fallback_page_view, name="404"),
     path("employer/profile/edit/", views.employer_profile_edit_view, name="employer_profile_edit"),
-    path("employer/job-applications/", views.employer_all_job_applications, name="all_applications")
+    path("employer/job-applications/", views.employer_all_job_applications, name="all_applications"),
+    path("employer/application/<str:pk>/", views.employer_job_application_details, name="application_details")
 ]

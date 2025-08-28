@@ -18,6 +18,7 @@ class CustomUser(AbstractUser):
 class JobSeekerProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
     
+    about = models.TextField(max_length=500, blank=True)
     skills = models.CharField(max_length=255, blank=True)
     experience = models.PositiveSmallIntegerField(blank=True)
     location = models.CharField(max_length=100, blank=True)

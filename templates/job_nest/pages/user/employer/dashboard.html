@@ -87,7 +87,7 @@
                                     <li class="p-4 rounded-lg bg-white shadow">
                                         <h3 class="font-semibold text-gray-800">Application for {{application.job.job_title}}</h3>
                                         <p class="text-sm text-gray-500 mb-2">From: {{application.job_seeker.full_name}}</p>
-                                        <a href="#" class="mt-2 inline-block text-indigo-600 hover:underline text-sm font-medium">View Application</a>
+                                        <a href="{% url 'application_details' application.id %}" class="mt-2 inline-block text-indigo-600 hover:underline text-sm font-medium">View Application</a>
                                     </li>
                                 {% endfor %}
                                     

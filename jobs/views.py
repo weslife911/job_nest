@@ -296,5 +296,20 @@ def employer_all_job_applications(request):
         return redirect("job_seeker_dashboard")
     employer = EmployerProfile.objects.get(user=request.user)
     jobs = Job.objects.filter(employer=employer)
-    applications = JobApplied.objects.filter(job__in=jobs)
+    applications_list = JobApplied.objects.filter(job__in=jobs)
+    paginator = Paginator(applications_list, 10)  # Show 10 applications per page
+    page = request.GET.get('page')
+    try:
+        applications = paginator.page(page)
+    except PageNotAnInteger:
+        applications = paginator.page(1)
+    except EmptyPage:
+        applications = paginator.page(paginator.num_pages)
     return render(request, "job_nest/pages/user/employer/job_applications.html", {"applications": applications})
+
+@login_required(login_url="login")
+def employer_job_application_details(request, pk):
+    if request.user.user_type != "employer":
+        return redirect("job_seeker_dashboard")
+    application = JobApplied.objects.get(id=pk)
+    return render(request, "job_nest/pages/user/employer/job_application_details.html", {"application": application})

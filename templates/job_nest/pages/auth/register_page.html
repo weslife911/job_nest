@@ -92,172 +92,176 @@
         </div>
 
         <form id="registerForm" class="space-y-6" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div id="step-1" class="form-step">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Account Details</h2>
-        
-        <div class="flex items-center space-x-8 mb-6">
-            <span class="text-sm font-medium text-gray-700">I am a:</span>
-            <div class="flex items-center">
-                <input type="radio" id="job-seeker" name="user_type" value="job-seeker" checked class="text-indigo-600 focus:ring-indigo-500">
-                <label for="job-seeker" class="ml-2 text-sm font-medium text-gray-700">Job Seeker</label>
-            </div>
-            <div class="flex items-center">
-                <input type="radio" id="employer" name="user_type" value="employer" class="text-indigo-600 focus:ring-indigo-500">
-                <label for="employer" class="ml-2 text-sm font-medium text-gray-700">Employer</label>
-            </div>
-        </div>
+            {% csrf_token %}
+            <div id="step-1" class="form-step">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Account Details</h2>
+                
+                <div class="flex items-center space-x-8 mb-6">
+                    <span class="text-sm font-medium text-gray-700">I am a:</span>
+                    <div class="flex items-center">
+                        <input type="radio" id="job-seeker" name="user_type" value="job-seeker" checked class="text-indigo-600 focus:ring-indigo-500">
+                        <label for="job-seeker" class="ml-2 text-sm font-medium text-gray-700">Job Seeker</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="employer" name="user_type" value="employer" class="text-indigo-600 focus:ring-indigo-500">
+                        <label for="employer" class="ml-2 text-sm font-medium text-gray-700">Employer</label>
+                    </div>
+                </div>
 
-        <div>
-            <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input type="text" id="full_name" name="full_name" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Jane Doe">
-        </div>
+                <div>
+                    <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Jane Doe">
+                </div>
 
-        <div>
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-            <input type="text" id="username" name="username" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., janedoe_23">
-        </div>
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <input type="text" id="username" name="username" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., janedoe_23">
+                </div>
 
-        <div>
-            <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-            <input type="text" id="phone_number" name="phone_number" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., +237 650811004">
-        </div>
-        
-        <div id="companyNameGroup" class="hidden">
-            <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-            <input type="text" id="company_name" name="company_name" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., JobNest Inc.">
-        </div>
+                <div>
+                    <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="text" id="phone_number" name="phone_number" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., +237 650811004">
+                </div>
+                
+                <div id="companyNameGroup" class="hidden">
+                    <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                    <input type="text" id="company_name" name="company_name" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., JobNest Inc.">
+                </div>
 
-        <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-            <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="you@example.com">
-        </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="you@example.com">
+                </div>
 
-        <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input type="password" id="password" name="password" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="••••••••">
-        </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" name="password" required class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="••••••••">
+                </div>
 
-        <div class="flex justify-end mt-6">
-            <button type="button" id="next-1" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
-                Next
-            </button>
-        </div>
-    </div>
+                <div class="flex justify-end mt-6">
+                    <button type="button" id="next-1" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Next
+                    </button>
+                </div>
+            </div>
 
-    <div id="step-2" class="form-step hidden">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Additional Details</h2>
-        
-        <div id="job-seeker-details" class="space-y-6">
-            <div>
-                <label for="skills" class="block text-sm font-medium text-gray-700 mb-1">Skills (comma separated)</label>
-                <input type="text" id="skills" name="skills" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Python, Django, HTML, CSS">
-            </div>
-            <div>
-                <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">Years of Experience</label>
-                <input type="number" id="experience" name="experience" min="0" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., 5">
-            </div>
-            <div>
-                <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                <input type="text" id="location" name="location" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., New York, NY">
-            </div>
-        </div>
+            <div id="step-2" class="form-step hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Additional Details</h2>
+                
+                <div id="job-seeker-details" class="space-y-6">
+                    <div>
+                        <label for="skills" class="block text-sm font-medium text-gray-700 mb-1">Skills (comma separated)</label>
+                        <input type="text" id="skills" name="skills" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Python, Django, HTML, CSS" required>
+                    </div>
+                    <div>
+                        <label for="about" class="block text-sm font-medium text-gray-700 mb-1">Tell us about yourself</label>
+                        <textarea type="text" id="about" name="about" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="Tell us more about yourself" required></textarea>
+                    </div>
+                    <div>
+                        <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">Years of Experience</label>
+                        <input type="number" id="experience" name="experience" min="0" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., 5" required>
+                    </div>
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                        <input type="text" id="location" name="location" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., New York, NY" required>
+                    </div>
+                </div>
 
-        <div id="employer-details" class="space-y-6 hidden">
-            <div>
-                <label for="company_website" class="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
-                <input type="url" id="company_website" name="company_website" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.yourcompany.com">
-            </div>
-            <div>
-                <label for="company_size" class="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
-                <select id="company_size" name="company_size" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900">
-                    <option value="">Select a size</option>
-                    <option value="1-10">1-10 employees</option>
-                    <option value="11-50">11-50 employees</option>
-                    <option value="51-200">51-200 employees</option>
-                    <option value="201-500">201-500 employees</option>
-                    <option value="500+">500+ employees</option>
-                </select>
-            </div>
-            <div>
-                <label for="company_location" class="block text-sm font-medium text-gray-700 mb-1">Company Location</label>
-                <input type="text" id="company_location" name="company_location" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., San Francisco, CA">
-            </div>
-        </div>
+                <div id="employer-details" class="space-y-6 hidden">
+                    <div>
+                        <label for="company_website" class="block text-sm font-medium text-gray-700 mb-1">Company Website</label>
+                        <input type="url" id="company_website" name="company_website" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.yourcompany.com" required>
+                    </div>
+                    <div>
+                        <label for="company_size" class="block text-sm font-medium text-gray-700 mb-1">Company Size</label>
+                        <select id="company_size" name="company_size" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900" required>
+                            <option value="">Select a size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="500+">500+ employees</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="company_location" class="block text-sm font-medium text-gray-700 mb-1">Company Location</label>
+                        <input type="text" id="company_location" name="company_location" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., San Francisco, CA" required>
+                    </div>
+                </div>
 
-        <div class="flex justify-between mt-6">
-            <button type="button" id="back-2" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
-                Back
-            </button>
-            <button type="button" id="next-2" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
-                Next
-            </button>
-        </div>
-    </div>
+                <div class="flex justify-between mt-6">
+                    <button type="button" id="back-2" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
+                        Back
+                    </button>
+                    <button type="button" id="next-2" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Next
+                    </button>
+                </div>
+            </div>
 
-    <div id="step-3" class="form-step hidden">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Social & Final Details</h2>
-        
-        <div id="job-seeker-social" class="space-y-6">
-            <div>
-                <label for="linkedin_profile" class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Profile</label>
-                <input type="url" id="linkedin_profile" name="linkedin_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.linkedin.com/in/yourprofile">
-            </div>
-            <div>
-                <label for="portfolio_url" class="block text-sm font-medium text-gray-700 mb-1">Portfolio URL</label>
-                <input type="url" id="portfolio_url" name="portfolio_url" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://yourportfolio.com">
-            </div>
-            <div>
-                <label for="facebook_profile" class="block text-sm font-medium text-gray-700 mb-1">Facebook Profile</label>
-                <input type="url" id="facebook_profile" name="facebook_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.facebook.com/yourprofile">
-            </div>
-            <div>
-                <label for="x_profile" class="block text-sm font-medium text-gray-700 mb-1">X (Twitter) Profile</label>
-                <input type="url" id="x_profile" name="x_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://x.com/yourhandle">
-            </div>
-            <div>
-                <label for="instagram_profile" class="block text-sm font-medium text-gray-700 mb-1">Instagram Profile</label>
-                <input type="url" id="instagram_profile" name="instagram_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.instagram.com/yourhandle">
-            </div>
-            <div>
-                <label for="resume" class="block text-sm font-medium text-gray-700 mb-1">Upload Resume (PDF or Word)</label>
-                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400">
-            </div>
-        </div>
-        
-        <div id="employer-social" class="space-y-6 hidden">
-            <div>
-                <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
-                <input type="text" id="industry" name="industry" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Technology, Healthcare">
-            </div>
-            <div>
-                <label for="company_mission" class="block text-sm font-medium text-gray-700 mb-1">Company Mission</label>
-                <textarea id="company_mission" name="company_mission" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="What is your company's mission?"></textarea>
-            </div>
-            <div>
-                <label for="company_logo" class="block text-sm font-medium text-gray-700 mb-1">Upload Company Logo (PNG/JPEG)</label>
-                <input type="file" id="company_logo" name="company_logo" accept=".png,.jpeg,.jpg" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400">
-            </div>
-            <div>
-                <label for="company_description" class="block text-sm font-medium text-gray-700 mb-1">Company Description</label>
-                <textarea id="company_description" name="company_description" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="Tell us about your company..."></textarea>
-            </div>
-        </div>
+            <div id="step-3" class="form-step hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Social & Final Details</h2>
+                
+                <div id="job-seeker-social" class="space-y-6">
+                    <div>
+                        <label for="linkedin_profile" class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Profile</label>
+                        <input type="url" id="linkedin_profile" name="linkedin_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.linkedin.com/in/yourprofile" required>
+                    </div>
+                    <div>
+                        <label for="portfolio_url" class="block text-sm font-medium text-gray-700 mb-1">Portfolio URL</label>
+                        <input type="url" id="portfolio_url" name="portfolio_url" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://yourportfolio.com" required>
+                    </div>
+                    <div>
+                        <label for="facebook_profile" class="block text-sm font-medium text-gray-700 mb-1">Facebook Profile</label>
+                        <input type="url" id="facebook_profile" name="facebook_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.facebook.com/yourprofile" required>
+                    </div>
+                    <div>
+                        <label for="x_profile" class="block text-sm font-medium text-gray-700 mb-1">X (Twitter) Profile</label>
+                        <input type="url" id="x_profile" name="x_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://x.com/yourhandle" required>
+                    </div>
+                    <div>
+                        <label for="instagram_profile" class="block text-sm font-medium text-gray-700 mb-1">Instagram Profile</label>
+                        <input type="url" id="instagram_profile" name="instagram_profile" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="https://www.instagram.com/yourhandle" required>
+                    </div>
+                    <div>
+                        <label for="resume" class="block text-sm font-medium text-gray-700 mb-1">Upload Resume (PDF or Word)</label>
+                        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" required>
+                    </div>
+                </div>
+                
+                <div id="employer-social" class="space-y-6 hidden">
+                    <div>
+                        <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                        <input type="text" id="industry" name="industry" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="e.g., Technology, Healthcare" required>
+                    </div>
+                    <div>
+                        <label for="company_mission" class="block text-sm font-medium text-gray-700 mb-1">Company Mission</label>
+                        <textarea id="company_mission" name="company_mission" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="What is your company's mission?" required></textarea>
+                    </div>
+                    <div>
+                        <label for="company_logo" class="block text-sm font-medium text-gray-700 mb-1">Upload Company Logo (PNG/JPEG)</label>
+                        <input type="file" id="company_logo" name="company_logo" accept=".png,.jpeg,.jpg" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" required>
+                    </div>
+                    <div>
+                        <label for="company_description" class="block text-sm font-medium text-gray-700 mb-1">Company Description</label>
+                        <textarea id="company_description" name="company_description" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-indigo-500 focus:outline-none transition-colors duration-300 bg-white text-gray-900 placeholder-gray-400" placeholder="Tell us about your company..." required></textarea>
+                    </div>
+                </div>
 
-        <div class="flex justify-between mt-6">
-            <button type="button" id="back-3" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
-                Back
-            </button>
-            <button type="submit" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
-                Register
-            </button>
-        </div>
-    </div>
-
-    <p class="text-sm text-center text-gray-600 mt-4">
-        Already have an account? <a href="{% url 'login' %}" class="text-indigo-600 font-bold hover:underline">Log In</a>
-    </p>
-</form>
+                <div class="flex justify-between mt-6">
+                    <button type="button" id="back-3" class="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-400 transition-transform duration-300 transform hover:scale-105">
+                        Back
+                    </button>
+                    <button type="submit" class="bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105">
+                        Register
+                    </button>
+                </div>
+            </div>
+            
+            <p class="text-sm text-center text-gray-600 mt-4">
+                Already have an account? <a href="{% url 'login' %}" class="text-indigo-600 font-bold hover:underline">Log In</a>
+            </p>
+        </form>
 
         <div id="messageBox" class="message-box hidden fixed bottom-4 left-1/2 -translate-x-1/2 p-4 rounded-lg shadow-xl text-center z-[100] transition-all duration-300 transform-gpu">
             <span id="messageText"></span>
@@ -267,71 +271,84 @@
 </div>
 
 <script>
-    // Message box logic (copied from your previous files)
-    function showMessage(message, type) {
-        const messageBox = document.getElementById('message-box');
-        const messageText = document.getElementById('message-text');
-        const closeMessageBox = document.getElementById('close-message-box');
-        
-        if (!messageBox || !messageText) return;
-
-        messageText.textContent = message;
-        messageBox.classList.remove('hidden', 'bg-green-600', 'bg-red-600', 'bg-blue-600', 'text-white', 'opacity-0', 'translate-y-full');
-        messageBox.classList.add('flex', 'opacity-100');
-
-        if (type === 'success') {
-            messageBox.classList.add('bg-green-600', 'text-white');
-        } else if (type === 'error') {
-            messageBox.classList.add('bg-red-600', 'text-white');
-        } else {
-            messageBox.classList.add('bg-blue-600', 'text-white');
-        }
-
-        setTimeout(() => {
-            messageBox.classList.add('opacity-0', 'translate-y-full');
-            setTimeout(() => messageBox.classList.add('hidden'), 300);
-        }, 3000);
-    }
-    
-    // Multi-step form logic
     document.addEventListener('DOMContentLoaded', () => {
         const registerForm = document.getElementById('registerForm');
         const steps = document.querySelectorAll('.form-step');
+        const stepIndicators = document.querySelectorAll('.step-indicator');
         const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
-        const jobSeekerDetails = document.getElementById('job-seeker-details');
-        const employerDetails = document.getElementById('employer-details');
-        const jobSeekerSocial = document.getElementById('job-seeker-social');
-        const employerSocial = document.getElementById('employer-social');
-        const companyNameGroup = document.getElementById('companyNameGroup');
-        const companyNameInput = document.getElementById('company_name'); // Corrected ID
-
+        
         let currentStep = 0;
 
         function updateFormFields() {
             const userType = document.querySelector('input[name="user_type"]:checked').value;
+            const jobSeekerDetails = document.getElementById('job-seeker-details');
+            const employerDetails = document.getElementById('employer-details');
+            const jobSeekerSocial = document.getElementById('job-seeker-social');
+            const employerSocial = document.getElementById('employer-social');
+            const companyNameGroup = document.getElementById('companyNameGroup');
+            const companyNameInput = document.getElementById('company_name');
+
+            // Set required attributes based on user type
+            const fieldsToToggle = {
+                'job-seeker': {
+                    show: [jobSeekerDetails, jobSeekerSocial],
+                    hide: [employerDetails, employerSocial, companyNameGroup],
+                    requiredFields: ['skills', 'about', 'experience', 'location', 'linkedin_profile', 'portfolio_url', 'facebook_profile', 'x_profile', 'instagram_profile', 'resume'],
+                    optionalFields: ['company_website', 'company_size', 'company_location', 'industry', 'company_mission', 'company_logo', 'company_description', 'company_name']
+                },
+                'employer': {
+                    show: [employerDetails, employerSocial, companyNameGroup],
+                    hide: [jobSeekerDetails, jobSeekerSocial],
+                    requiredFields: ['company_website', 'company_size', 'company_location', 'industry', 'company_mission', 'company_logo', 'company_description', 'company_name'],
+                    optionalFields: ['skills', 'about', 'experience', 'location', 'linkedin_profile', 'portfolio_url', 'facebook_profile', 'x_profile', 'instagram_profile', 'resume']
+                }
+            };
             
-            if (userType === 'employer') {
-                companyNameGroup.classList.remove('hidden');
-                companyNameInput.setAttribute('required', 'required');
-                jobSeekerDetails.classList.add('hidden');
-                employerDetails.classList.remove('hidden');
-                jobSeekerSocial.classList.add('hidden');
-                employerSocial.classList.remove('hidden');
-            } else {
-                companyNameGroup.classList.add('hidden');
-                companyNameInput.removeAttribute('required');
-                jobSeekerDetails.classList.remove('hidden');
-                employerDetails.classList.add('hidden');
-                jobSeekerSocial.classList.remove('hidden');
-                employerSocial.classList.add('hidden');
-            }
+            // Apply show/hide classes
+            fieldsToToggle[userType].show.forEach(el => el.classList.remove('hidden'));
+            fieldsToToggle[userType].hide.forEach(el => el.classList.add('hidden'));
+
+            // Manage required attributes
+            fieldsToToggle[userType].requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.setAttribute('required', 'required');
+            });
+            fieldsToToggle[userType].optionalFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.removeAttribute('required');
+            });
         }
         
-        function showStep(stepIndex) {
-            steps.forEach((step, index) => {
-                step.classList.toggle('hidden', index !== stepIndex);
+        function updateStepIndicators(stepIndex) {
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'complete');
+                if (index < stepIndex) {
+                    indicator.classList.add('complete');
+                } else if (index === stepIndex) {
+                    indicator.classList.add('active');
+                }
             });
-            currentStep = stepIndex;
+        }
+        
+        function validateAndShowStep(fromStep, toStep) {
+            const currentStepElement = document.getElementById(`step-${fromStep + 1}`);
+            const requiredFields = currentStepElement.querySelectorAll('[required]');
+            let allFieldsValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.checkValidity()) {
+                    allFieldsValid = false;
+                    field.reportValidity(); // This will show the browser's native validation message
+                }
+            });
+
+            if (allFieldsValid) {
+                steps.forEach((step, index) => {
+                    step.classList.toggle('hidden', index !== toStep);
+                });
+                currentStep = toStep;
+                updateStepIndicators(currentStep);
+            }
         }
 
         userTypeRadios.forEach(radio => {
@@ -341,11 +358,11 @@
         });
 
         document.getElementById('next-1').addEventListener('click', () => {
-            showStep(1);
+            validateAndShowStep(0, 1);
         });
 
         document.getElementById('next-2').addEventListener('click', () => {
-            showStep(2);
+            validateAndShowStep(1, 2);
         });
 
         document.getElementById('back-2').addEventListener('click', () => {
@@ -355,10 +372,29 @@
         document.getElementById('back-3').addEventListener('click', () => {
             showStep(1);
         });
+        
+        // This function is for "back" buttons, where validation is not needed
+        function showStep(stepIndex) {
+             steps.forEach((step, index) => {
+                step.classList.toggle('hidden', index !== stepIndex);
+            });
+            currentStep = stepIndex;
+            updateStepIndicators(currentStep);
+        }
+
+        // Handle form submission to ensure all fields are submitted
+        registerForm.addEventListener('submit', (event) => {
+            // Before submission, make sure all fields are not marked as required
+            // in the hidden steps to prevent browser validation issues
+            const allFields = registerForm.querySelectorAll('input, select, textarea');
+            allFields.forEach(field => {
+                field.removeAttribute('required');
+            });
+        });
 
         // Initial state
         updateFormFields();
-        showStep(0);
+        updateStepIndicators(0);
     });
 </script>
 
