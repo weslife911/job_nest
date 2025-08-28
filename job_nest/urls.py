@@ -21,4 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("users.urls")),
     path("", include("jobs.urls"))
+<<<<<<< Updated upstream
 ]
+=======
+]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#
+>>>>>>> Stashed changes
